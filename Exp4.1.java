@@ -64,15 +64,15 @@ Error: Employee with ID 101 already exists.
   THE CODE is as follows:
 
 
-import java.util.ArrayList;
-import java.util.Scanner;
+  
+         import java.util.*;
 
 class Employee {
     int id;
     String name;
     double salary;
 
-    public Employee(int id, String name, double salary) {
+    Employee(int id, String name, double salary) {
         this.id = id;
         this.name = name;
         this.salary = salary;
@@ -85,9 +85,18 @@ class Employee {
 }
 
 public class EmployeeManagementSystem {
-    private static ArrayList<Employee> employees = new ArrayList<>();
+    private static final List<Employee> employees = new ArrayList<>();
+    private static final Scanner scanner = new Scanner(System.in);
 
-    public static void addEmployee(int id, String name, double salary) {
+    public static void addEmployee() {
+        System.out.print("Enter Employee ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        System.out.print("Enter Employee Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter Employee Salary: ");
+        double salary = scanner.nextDouble();
+        
         for (Employee emp : employees) {
             if (emp.id == id) {
                 System.out.println("Error: Employee with ID " + id + " already exists.");
@@ -98,7 +107,12 @@ public class EmployeeManagementSystem {
         System.out.println("Employee Added: ID=" + id + ", Name=" + name + ", Salary=" + salary);
     }
 
-    public static void updateEmployee(int id, double newSalary) {
+    public static void updateEmployee() {
+        System.out.print("Enter Employee ID to update: ");
+        int id = scanner.nextInt();
+        System.out.print("Enter new Salary: ");
+        double newSalary = scanner.nextDouble();
+        
         for (Employee emp : employees) {
             if (emp.id == id) {
                 emp.salary = newSalary;
@@ -106,31 +120,38 @@ public class EmployeeManagementSystem {
                 return;
             }
         }
-        System.out.println("Error: Employee with ID " + id + " not found.");
+        System.out.println("Error: Employee ID " + id + " not found.");
     }
 
-    public static void removeEmployee(int id) {
-        for (Employee emp : employees) {
-            if (emp.id == id) {
-                employees.remove(emp);
+    public static void removeEmployee() {
+        System.out.print("Enter Employee ID to remove: ");
+        int id = scanner.nextInt();
+        
+        Iterator<Employee> iterator = employees.iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().id == id) {
+                iterator.remove();
                 System.out.println("Employee ID " + id + " removed successfully.");
                 return;
             }
         }
-        System.out.println("Error: Employee with ID " + id + " not found.");
+        System.out.println("Error: Employee ID " + id + " not found.");
     }
 
-    public static void searchEmployeeById(int id) {
+    public static void searchEmployeeById() {
+        System.out.print("Enter Employee ID to search: ");
+        int id = scanner.nextInt();
+        
         for (Employee emp : employees) {
             if (emp.id == id) {
                 System.out.println("Employee Found: " + emp);
                 return;
             }
         }
-        System.out.println("Error: Employee with ID " + id + " not found.");
+        System.out.println("Error: Employee ID " + id + " not found.");
     }
 
-    public static void displayEmployees() {
+    public static void displayAllEmployees() {
         if (employees.isEmpty()) {
             System.out.println("No employees found.");
         } else {
@@ -141,45 +162,35 @@ public class EmployeeManagementSystem {
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("\n1. Add Employee\n2. Update Employee\n3. Remove Employee\n4. Search Employee\n5. Display All Employees\n6. Exit");
+            System.out.println("\nEmployee Management System");
+            System.out.println("1. Display Employees");
+            System.out.println("2. Add Employee");
+            System.out.println("3. Update Employee Salary");
+            System.out.println("4. Search Employee by ID");
+            System.out.println("5. Remove Employee");
+            System.out.println("6. Exit");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
+            
             switch (choice) {
                 case 1:
-                    System.out.print("Enter ID: ");
-                    int id = scanner.nextInt();
-                    scanner.nextLine(); // Consume newline
-                    System.out.print("Enter Name: ");
-                    String name = scanner.nextLine();
-                    System.out.print("Enter Salary: ");
-                    double salary = scanner.nextDouble();
-                    addEmployee(id, name, salary);
+                    displayAllEmployees();
                     break;
                 case 2:
-                    System.out.print("Enter Employee ID to update: ");
-                    id = scanner.nextInt();
-                    System.out.print("Enter new Salary: ");
-                    salary = scanner.nextDouble();
-                    updateEmployee(id, salary);
+                    addEmployee();
                     break;
                 case 3:
-                    System.out.print("Enter Employee ID to remove: ");
-                    id = scanner.nextInt();
-                    removeEmployee(id);
+                    updateEmployee();
                     break;
                 case 4:
-                    System.out.print("Enter Employee ID to search: ");
-                    id = scanner.nextInt();
-                    searchEmployeeById(id);
+                    searchEmployeeById();
                     break;
                 case 5:
-                    displayEmployees();
+                    removeEmployee();
                     break;
                 case 6:
-                    System.out.println("Exiting...");
-                    scanner.close();
+                    System.out.println("Exiting Employee Management System...");
                     return;
                 default:
                     System.out.println("Invalid choice! Please try again.");
@@ -187,62 +198,3 @@ public class EmployeeManagementSystem {
         }
     }
 }
-
-
-
-
-OUTPUT:
-C:\Users\LENOVO\.jdks\openjdk-23.0.1\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.1.1\lib\idea_rt.jar=51685:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.1.1\bin" -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -classpath C:\Users\LENOVO\IdeaProjects\Java\out\production\Java EmployeeManagementSystem
-
-1. Add Employee
-2. Update Employee
-3. Remove Employee
-4. Search Employee
-5. Display All Employees
-6. Exit
-Enter your choice: 4
-Enter Employee ID to search: 101
-Error: Employee with ID 101 not found.
-
-1. Add Employee
-2. Update Employee
-3. Remove Employee
-4. Search Employee
-5. Display All Employees
-6. Exit
-Enter your choice: 1
-Enter ID: 101
-Enter Name: Shirsha
-Enter Salary: 99000
-Employee Added: ID=101, Name=Shirsha, Salary=99000.0
-
-1. Add Employee
-2. Update Employee
-3. Remove Employee
-4. Search Employee
-5. Display All Employees
-6. Exit
-Enter your choice: 1
-Enter ID: 102
-Enter Name: Muskan
-Enter Salary: 99000
-Employee Added: ID=102, Name=Muskan, Salary=99000.0
-
-1. Add Employee
-2. Update Employee
-3. Remove Employee
-4. Search Employee
-5. Display All Employees
-6. Exit
-Enter your choice: 4
-Enter Employee ID to search: 102
-Employee Found: ID: 102, Name: Muskan, Salary: 99000.0
-
-1. Add Employee
-2. Update Employee
-3. Remove Employee
-4. Search Employee
-5. Display All Employees
-6. Exit
-Enter your choice: 
-Process finished with exit code 130
